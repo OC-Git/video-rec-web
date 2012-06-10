@@ -1,0 +1,82 @@
+@()(implicit req: RequestHeader)
+
+@main("Lean Video Recording") {
+      <div class="row">
+        <div class="span12">
+          <div class="hero-unit">
+            <h1>Lean Video Recording</h1>
+            <p>
+            	Let your Users express themselves by video!
+            </p>
+            <div class="row">
+		        <div class="span4">
+<pre>
+&lt;script src="http://video-rec.
+    lean-web-development.com/
+    yoursite/record.js"/&gt;
+&lt;script type="text/javascript"&gt;
+LWDRecorder.recordButton({
+  button : {
+    title : "Try recording...",
+    class : "btn btn-primary"
+  }
+});
+&lt;/script&gt;
+</pre>
+		        </div>
+		        <div class="span2">
+		        	<br><br><br>
+		           	<img width="140px" src="@routes.Assets.at("images/arrow.png")"/>
+		        </div>
+		        <div class="span2">
+<script type="text/javascript" src="/video-rec/record.js"></script>
+<script type="text/javascript">
+LWDRecorder.recordButton({
+	button : {
+		title : "Try recording...",
+		class : "btn btn-primary"
+	}
+});
+</script>
+		        </div>
+	        </div>
+          </div>
+      <div class="row-fluid">
+        <div class="span4">
+          <h2>Applications</h2>
+          <p>
+          	<ul>
+          		<li>Video comments</li>
+          		<li>Video ratings</li>
+          		<li>Vlogs of your users</li>
+          		<li>Profile videos</li>
+          	</ul>
+          </p>
+          <p><a class="btn" href="#">More ideas &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>Extremely simple</h2>
+          <p>
+          	Easy-to-use JavaScript API.<br/>
+          	Full-fledged REST/JSON API.<br>
+          	Want to customize? - No Problem via CSS!<br>
+          	Post to Youtube, Facebook or twitter? - Just do it!<br>
+          	Engage your users!
+          </p>
+          <p><a class="btn" href="/api">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>Getting Started</h2>
+          <p>
+          	Test us now - free for low volumes!
+		  </p>
+       	  <p><a class="btn btn-primary btn-large">Apply for your API key &raquo;</a></p>
+          <p>
+          	Or learn about our plans:
+		  </p>
+          <p><a class="btn" href="#">Choose Plan &raquo;</a></p>
+        </div><!--/span-->
+      </div><!--/row-->
+    </div><!--/span-->
+  </div><!--/row-->
+}

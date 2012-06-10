@@ -1,0 +1,3 @@
+@(uri: String, title: String)(implicit req: RequestHeader)
+
+<li @if(req.uri==uri) {class="active"}><a href="@uri">@title</a></li>

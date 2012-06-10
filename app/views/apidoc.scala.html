@@ -1,0 +1,83 @@
+@()(implicit req: RequestHeader)
+
+@main("Lean Video Recording - API") {
+  <div class="row">
+    <div class="span12">
+      <div class="hero-unit">
+        <h1>API documentation</h1>
+        <p>
+        	Do you prefer <a href="#js">JavaScript</a> or <a href="#rest">REST</a>?
+        </p>
+      </div>
+    </div><!--/span-->
+  </div><!--/row-->
+  
+	<div class="row">
+	    <div class="span12">
+			<a name="js"></a>
+			<h1>JavaScript API</h1>
+			
+			<h2>Recording</h2>
+			Just enter in your source page the following Scriptlet:
+<pre>
+&lt;script type="text/javascript" src="http://video-rec.lean-web-development.com/<b>yoursite</b>/record.js"/&gt;
+&lt;script type="text/javascript"&gt;
+	LWDRecord.button({});
+&lt;/script&gt;
+</pre>
+			<p>
+			Replace <code><b>yoursite</b></code> with your registered application name. 
+			This will display the record button.
+			On click, this button will load our recording widget on demand and ask the user
+			for starting her recording.
+			</p>
+			<p>
+			The argument to the button is a configuration object, consider: 
+<pre>
+	LWDRecorder.button({
+		button : {
+			title : "Start recording your comment"
+		}
+	});
+</pre>
+			Here is the full list of configuration options:
+			<table>
+				<tr>
+					<th>Object</th>
+					<th>Parameter</th>
+					<th>Default</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>button</td>
+					<td>title</td>
+					<td>Record...</td>
+					<td>Title of the recording button</td>
+				</tr>
+				<tr>
+					<td>meta</td>
+					<td>key</td>
+					<td></td>
+					<td>A key you want this recorded video be stored under. Later, you can query for this key.</td>
+				</tr>
+			</table>
+			</p>
+			 
+			
+			<h2>Replay</h2>
+			Replay in fact is a query for recorded video.
+			The simpliest way is:
+<pre>
+&lt;script src="http://video-rec.lean-web-development.com/<b>yoursite</b>/replay.js" type="text/javascript"/&gt;
+&lt;script type="text/javascript"&gt;
+	LWDRecord.replay({});
+&lt;/script&gt;
+</pre>
+			Replace <code><b>yoursite</b></code> with your registered application name. 
+			This will display the record button.
+			On click, this button will load our recording widget on demand and ask the user
+			for starting her recording. 
+		</div>
+	</div>
+
+}
