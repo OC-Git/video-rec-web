@@ -5,6 +5,12 @@ var LWDRecorder = {
 		button : {
 			title : "Record &raqou;",
 			class : ""
+		},
+		meta : {
+			title : "Test",
+			page : document.URL,
+			category : "Autos",
+			description : "Comment on "+document.URL
 		}
 	},
 
@@ -51,6 +57,10 @@ var LWDRecorder = {
 			flashvars.fps=10;
 			flashvars.bandwith=30;
 			flashvars.quality=0;
+			flashvars.page = LWDRecorder.conf.meta.page;
+			flashvars.title = LWDRecorder.conf.meta.title;
+			flashvars.category = LWDRecorder.conf.meta.category;
+			flashvars.description = LWDRecorder.conf.meta.description;
 			var params = {allowfullscreen: "true"};
 			var attributes = {};
 			swfobject.embedSWF("/assets/javascripts/record.swf", "myContent", "320","266", "9.0.0", "/assets/javascripts/expressInstall.swf", flashvars, params, attributes);
