@@ -44,7 +44,7 @@ var LWDRecorder = {
 		   LWDRecorder.conf.button.class+'" onClick="LWDRecorder.clickRecordButton()">'+
 		   LWDRecorder.conf.button.title+'<\/a>');
 	},
-	
+
 	clickRecordButton : function() {
 		var rec = document.getElementById('recorder');
 		if (rec.style.display=='none') {
@@ -57,6 +57,7 @@ var LWDRecorder = {
 			flashvars.fps=10;
 			flashvars.bandwith=30;
 			flashvars.quality=0;
+			flashvars.client = '@client';
 			flashvars.page = LWDRecorder.conf.meta.page;
 			flashvars.title = LWDRecorder.conf.meta.title;
 			flashvars.category = LWDRecorder.conf.meta.category;
@@ -69,8 +70,22 @@ var LWDRecorder = {
 		} else {
 			rec.style.display = 'none';
 		}
+	},
+	
+	publishComplete : function () {
+		LWDRecorder.clickRecordButton();
 	}
 }
+
+
+function publishComplete() {
+	LWDRecorder.publishComplete();
+};
+
+function publishCancelled() {
+	LWDRecorder.clickRecordButton();
+};
+	
 
 /* SWFObject v2.1 rc2 <http://code.google.com/p/swfobject/>
 	Copyright (c) 2007 Geoff Stearns, Michael Williams, and Bobby van der Sluis
