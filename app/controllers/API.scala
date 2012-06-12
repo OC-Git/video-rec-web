@@ -5,10 +5,10 @@ import play.api.db._
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-import play.api.libs.json.Json._
 import anorm._
 import models.Video
 import java.util.Date
+import com.codahale.jerkson.Json
 
 object API extends Controller {
 
@@ -35,9 +35,13 @@ object API extends Controller {
   }
 
   def videos(client: String) = Action { implicit request =>
-    val videos = Video.findAll().map { v => toJson(v.asMap) }
+    val videos = Video.findAll()
 
-    Ok(toJson(Map("videos" -> videos)))
+    println("found videos: " + videos.size)
+
+    val json = Json.generate(videos)
+
+    Ok(json).as("application/json")
   }
 
 }

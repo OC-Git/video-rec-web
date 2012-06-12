@@ -7,17 +7,7 @@ import anorm.SqlParser._
 import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
-  page: String, category: String, description: String, publishedId: String) {
-  def asMap = Map(
-    "id" -> id.toString,
-    "date" -> date.toString,
-    "client" -> client,
-    "title" -> title,
-    "page" -> page,
-    "category" -> category,
-    "description" -> description,
-    "publishId" -> publishedId)
-}
+  page: String, category: String, description: String, publishedId: String)
 
 object Video {
 
@@ -37,7 +27,7 @@ object Video {
 
   def findAll(): Seq[Video] = {
     DB.withConnection { implicit connection =>
-      SQL("select * from Video").as(Video.simple *)
+      SQL("SELECT * FROM Video ORDER BY date DESC").as(Video.simple *)
     }
   }
 

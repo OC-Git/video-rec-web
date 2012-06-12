@@ -74,6 +74,38 @@ var LWDRecorder = {
 	
 	publishComplete : function () {
 		LWDRecorder.clickRecordButton();
+		setTimeout(LWDRecorder.updateRecorded(), 10000);
+	},
+	
+	recorded : function(c) {
+		document.write("<div id='recordedVideos'></div>");
+		LWDRecorder.updateRecorded();
+	},
+	
+	get : function(url, result) {
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		  {// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		  }
+		else
+		  {// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xmlhttp.open("GET", url, true);
+		xmlhttp.onload  = function() { result(JSON.parse(xmlhttp.responseText)) }; 
+		xmlhttp.send(null);
+		return ;  	
+	},
+	 
+	updateRecorded : function() {
+		var videos = LWDRecorder.get("/@client/videos", function(videos) {
+			var s = "";
+			for each (v in videos) {
+				s += '<iframe width="320" height="240" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
+			}
+			document.getElementById("recordedVideos").innerHTML=s;
+		});
 	}
 }
 
