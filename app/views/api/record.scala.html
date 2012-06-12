@@ -101,7 +101,8 @@ var LWDRecorder = {
 	updateRecorded : function() {
 		var videos = LWDRecorder.get("/@client/videos", function(videos) {
 			var s = "";
-			for each (v in videos) {
+			for (i=0; i<videos.length; i++) {
+				var v = videos[i]; 
 				s += '<iframe width="320" height="240" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
 			}
 			document.getElementById("recordedVideos").innerHTML=s;
