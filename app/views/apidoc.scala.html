@@ -17,12 +17,17 @@
 			<a name="js"></a>
 			<h1>JavaScript API</h1>
 			
-			<h2>Recording</h2>
-			Just enter in your source page the following Scriptlet:
+			<h2>Installation</h2>
+			In the head section of your page, load your personal recording script:
 <pre>
 &lt;script type="text/javascript" src="http://video-rec.lean-web-development.com/<b>yoursite</b>/record.js"/&gt;
+</pre>
+			
+			<h2>Recording Button</h2>
+			Just enter in your source page the following Scriptlet:
+<pre>
 &lt;script type="text/javascript"&gt;
-	LWDRecord.button({});
+	LWDRecorder.recordButton({});
 &lt;/script&gt;
 </pre>
 			<p>
@@ -31,36 +36,56 @@
 			On click, this button will load our recording widget on demand and ask the user
 			for starting her recording.
 			</p>
-			<p>
-			The argument to the button is a configuration object, consider: 
+
+			<h2>Recorder</h2>
+			If you want the recorder to be display immediately, use:
 <pre>
-	LWDRecorder.button({
+&lt;script type="text/javascript"&gt;
+	LWDRecorder.recorder({});
+&lt;/script&gt;
+</pre>
+			<p>
+			Replace <code><b>yoursite</b></code> with your registered application name. 
+			This will display the recorder widget.
+			</p>
+			
+			<h2>Configuration</h2>
+			<p>
+			The argument to the functions above is a configuration object, consider: 
+<pre>
+	LWDRecorder.recordButton({
 		button : {
 			title : "Start recording your comment"
 		}
 	});
 </pre>
-			Here is the full list of configuration options:
-			<table>
-				<tr>
-					<th>Object</th>
-					<th>Parameter</th>
-					<th>Default</th>
-					<th>Description</th>
-				</tr>
-				<tr>
-					<td>button</td>
-					<td>title</td>
-					<td>Record...</td>
-					<td>Title of the recording button</td>
-				</tr>
-				<tr>
-					<td>meta</td>
-					<td>key</td>
-					<td></td>
-					<td>A key you want this recorded video be stored under. Later, you can query for this key.</td>
-				</tr>
-			</table>
+			Here is the default configuration, which you can override as you like:
+<pre>
+{
+	button : {
+		title : "Record &raqou;",
+		class : ""
+	},
+	meta : {
+		title : "Test",
+		page : document.URL,
+		category : "Autos",
+		description : "Comment on "+document.URL,
+		key : ""
+	},
+	video : {
+		width : 640,
+		height : 480,
+		fps : 30,
+		quality : 80,
+		bandwidth : 0
+	},
+	player : {
+		width : 320,
+		height : 240
+	}
+}				
+</pre>
 			</p>
 			 
 			
@@ -68,15 +93,65 @@
 			Replay in fact is a query for recorded video.
 			The simpliest way is:
 <pre>
-&lt;script src="http://video-rec.lean-web-development.com/<b>yoursite</b>/replay.js" type="text/javascript"/&gt;
 &lt;script type="text/javascript"&gt;
 	LWDRecord.replay({});
 &lt;/script&gt;
 </pre>
-			Replace <code><b>yoursite</b></code> with your registered application name. 
-			This will display the record button.
-			On click, this button will load our recording widget on demand and ask the user
-			for starting her recording. 
+			The argument is a query specification, consider:
+<pre>
+&lt;script type="text/javascript"&gt;
+	LWDRecord.replay({
+		query : {
+			key : "myvideo",
+			page : document.URL,
+			count : 1
+		},
+		player : {
+			width : 320,
+			height : 240
+		}
+	});
+&lt;/script&gt;
+</pre>
+		</div>
+	</div>
+
+	<div class="row">
+	    <div class="span12">
+			<a name="rest"></a>
+			<h1>REST API</h1>
+			
+			<h2>JavaScriptlet</h2>
+<pre>
+GET @routes.API.record(":client").absoluteURL()
+</pre>
+			Returns JavaScript API Code for <code>client</code>.
+
+			<h2>Video Query</h2>
+<pre>
+GET @routes.API.videos(":client").absoluteURL()?:query
+</pre>
+			Returns videos for <code>client</code> matching <code>query</code>.
+			Query can contain the meta parameters <code>page</code> and <code>key</code> 
+			as well as <code>count</code>, which restricts the number of videos returned.
+			The videos are listed in descending order of their recording timestamp.<br>
+			Example:
+<pre>
+GET @routes.API.videos("videorec").absoluteURL()?key=seminar-41&count=1
+[
+	{
+		"id" 		: {"id":2},
+		"client" 	: "66and33",
+		"date"		: 1339597039954,
+		"title"		: "Test",
+		"page"		: "http://localhost:9000/seminar/41/video",
+		"key"		: "seminar-41",
+		"category"	: "Autos",
+		"description"	: "Comment on http://localhost:9000/seminar/41/video",
+		"publishedId"	: "2bqvcAGBtmA"
+	}
+]
+</pre>
 		</div>
 	</div>
 
