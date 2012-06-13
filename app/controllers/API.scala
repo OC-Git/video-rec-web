@@ -20,6 +20,7 @@ object API extends Controller {
     tuple(
       "title" -> text,
       "page" -> text,
+      "key" -> text,
       "category" -> text,
       "description" -> text,
       "publishedId" -> text))
@@ -28,14 +29,16 @@ object API extends Controller {
     form.bindFromRequest.fold(
       errors => BadRequest("Failed"),
       {
-        case (title, page, category, description, publishedId) =>
-          Video.create(Video(NotAssigned, client, new Date(), title, page, category, description, publishedId))
+        case (title, page, key, category, description, publishedId) =>
+          Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
           Ok("created")
       })
   }
 
   def videos(client: String) = Action { implicit request =>
-    val videos = Video.findAll(client)
+    val params = request.queryString.map(t => (t._1, t._2(0)))
+
+    val videos = Video.findAll(client, params)
 
     println("found videos: " + videos.size)
 

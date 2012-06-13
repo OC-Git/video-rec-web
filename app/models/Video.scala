@@ -7,7 +7,7 @@ import anorm.SqlParser._
 import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
-  page: String, category: String, description: String, publishedId: String)
+  page: String, key: String, category: String, description: String, publishedId: String)
 
 object Video {
 
@@ -17,17 +17,21 @@ object Video {
       get[Date]("date") ~
       get[String]("title") ~
       get[String]("page") ~
+      get[String]("key") ~
       get[String]("category") ~
       get[String]("description") ~
       get[String]("publishedId") map {
-        case id ~ client ~ date ~ title ~ page ~ category ~ description ~ publishedId =>
-          Video(id, client, date, title, page, category, description, publishedId)
+        case id ~ client ~ date ~ title ~ page ~ key ~ category ~ description ~ publishedId =>
+          Video(id, client, date, title, page, key, category, description, publishedId)
       }
   }
 
-  def findAll(client: String): Seq[Video] = {
+  def findAll(client: String, p: Map[String, String]): Seq[Video] = {
+    val where = "client={client}" +
+      (if (p.contains("key")) { " AND key='" + p("key") + "'" } else "") +
+      (if (p.contains("page")) { " AND page='" + p("page") + "'" } else "")
     DB.withConnection { implicit connection =>
-      SQL("SELECT * FROM Video WHERE client={client} ORDER BY date DESC")
+      SQL("SELECT * FROM Video WHERE " + where + " ORDER BY date DESC")
         .on("client" -> client)
         .as(Video.simple *)
     }
@@ -37,13 +41,14 @@ object Video {
     println(video)
     DB.withConnection { implicit connection =>
       SQL("""
-        INSERT INTO Video(client, date, title, page, category, description, publishedId) 
-               VALUES ({client}, {date}, {title}, {page}, {category}, {description}, {publishedId})
+        INSERT INTO Video(client, date, title, page, key, category, description, publishedId) 
+               VALUES ({client}, {date}, {title}, {page}, {key}, {category}, {description}, {publishedId})
         """)
         .on("client" -> video.client,
           "date" -> video.date,
           "title" -> video.title,
           "page" -> video.page,
+          "key" -> video.key,
           "category" -> video.category,
           "description" -> video.description,
           "publishedId" -> video.publishedId).executeInsert()
