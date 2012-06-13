@@ -19,6 +19,10 @@ var LWDRecorder = {
 			fps : 30,
 			quality : 80,
 			bandwidth : 0
+		},
+		player : {
+			width : 320,
+			height : 240
 		}
 	},
 
@@ -28,7 +32,7 @@ var LWDRecorder = {
 	    try {
 	      // Property in destination object set; update its value.
 	      if ( obj2[p].constructor==Object ) {
-	        obj1[p] = MergeRecursive(obj1[p], obj2[p]);
+	        obj1[p] = LWDRecorder.merge(obj1[p], obj2[p]);
 	
 	      } else {
 	        obj1[p] = obj2[p];
@@ -88,7 +92,7 @@ var LWDRecorder = {
 	
 	recorded : function(c) {
 		document.write("<div id='recordedVideos'></div>");
-		LWDRecorder.updateRecorded();
+		LWDRecorder.updateRecorded(c);
 	},
 	
 	get : function(url, result) {
@@ -107,12 +111,26 @@ var LWDRecorder = {
 		return ;  	
 	},
 	 
-	updateRecorded : function() {
-		var videos = LWDRecorder.get("@routes.API.videos(client).absoluteURL()", function(videos) {
+	query : function(q) {
+		var sep = "?";
+		var result = "";
+		for (var p in q) {
+			result += sep;
+			sep = "&";
+			result += p;
+			result += "=";
+			result += q[p];
+		}
+		return result;
+	}, 
+	 
+	updateRecorded : function(c) {
+		var qs = LWDRecorder.query(c.query);
+		var videos = LWDRecorder.get("@routes.API.videos(client).absoluteURL()"+qs, function(videos) {
 			var s = "";
 			for (i=0; i<videos.length; i++) {
 				var v = videos[i]; 
-				s += '<iframe width="320" height="240" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
+				s += '<iframe width="'+c.player.width+'" height="'+c.player.height+'" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
 			}
 			document.getElementById("recordedVideos").innerHTML=s;
 		});
