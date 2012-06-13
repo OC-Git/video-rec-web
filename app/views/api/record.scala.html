@@ -106,7 +106,9 @@ var LWDRecorder = {
 		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		  }
 		xmlhttp.open("GET", url, true);
-		xmlhttp.onload  = function() { result(JSON.parse(xmlhttp.responseText)) }; 
+		xmlhttp.onload  = function() {
+			result(JSON.parse(xmlhttp.responseText)) 
+		}; 
 		xmlhttp.send(null);
 		return ;  	
 	},
@@ -125,12 +127,20 @@ var LWDRecorder = {
 	}, 
 	 
 	updateRecorded : function(c) {
-		var qs = LWDRecorder.query(c.query);
-		var videos = LWDRecorder.get("@routes.API.videos(client).absoluteURL()"+qs, function(videos) {
+		var conf = {
+			query : {},
+			player : {
+				width : 320,
+				height : 240
+			}
+		}
+		conf = LWDRecorder.merge(conf, c);
+		var qs = LWDRecorder.query(conf.query);
+		var videos = LWDRecorder.get("http://lwd-videorec-test.herokuapp.com/66and33/videos"+qs, function(videos) {
 			var s = "";
 			for (i=0; i<videos.length; i++) {
 				var v = videos[i]; 
-				s += '<iframe width="'+c.player.width+'" height="'+c.player.height+'" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
+				s += '<iframe width="'+conf.player.width+'" height="'+conf.player.height+'" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
 			}
 			document.getElementById("recordedVideos").innerHTML=s;
 		});

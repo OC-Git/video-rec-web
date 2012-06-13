@@ -44,7 +44,8 @@ object API extends Controller {
 
     val json = Json.generate(videos)
 
-    Ok(json).as("application/json")
+    Ok(json).as("application/json").withHeaders(
+      "Access-Control-Allow-Origin" -> "*")
   }
 
 }
