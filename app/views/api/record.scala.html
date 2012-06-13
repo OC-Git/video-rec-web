@@ -53,11 +53,17 @@ var LWDRecorder = {
 		LWDRecorder.merge(LWDRecorder.conf, c);
 		document.write('<div id="recorder" style="display: none"><div id="myContent"></div></div>');
 		document.write('<a id="show-record" class="'+
-		   LWDRecorder.conf.button.class+'" onClick="LWDRecorder.clickRecordButton()">'+
+		   LWDRecorder.conf.button.class+'" onClick="LWDRecorder.toggleRecorder()">'+
 		   LWDRecorder.conf.button.title+'<\/a>');
 	},
 
-	clickRecordButton : function() {
+	recorder : function(c) {
+		LWDRecorder.merge(LWDRecorder.conf, c);
+		document.write('<div id="recorder" style="display: none"><div id="myContent"></div></div>');
+		LWDRecorder.toggleRecorder();
+	},
+
+	toggleRecorder : function() {
 		var rec = document.getElementById('recorder');
 		if (rec.style.display=='none') {
 			var flashvars = {};
@@ -86,7 +92,7 @@ var LWDRecorder = {
 	},
 	
 	publishComplete : function () {
-		LWDRecorder.clickRecordButton();
+		LWDRecorder.toggleRecorder();
 		setTimeout(LWDRecorder.updateRecorded(), 10000);
 	},
 	
@@ -136,7 +142,7 @@ var LWDRecorder = {
 		}
 		conf = LWDRecorder.merge(conf, c);
 		var qs = LWDRecorder.query(conf.query);
-		var videos = LWDRecorder.get("http://lwd-videorec-test.herokuapp.com/66and33/videos"+qs, function(videos) {
+		var videos = LWDRecorder.get("@routes.API.videos(client).absoluteURL()"+qs, function(videos) {
 			var s = "";
 			for (i=0; i<videos.length; i++) {
 				var v = videos[i]; 
@@ -153,7 +159,7 @@ function publishComplete() {
 };
 
 function publishCancelled() {
-	LWDRecorder.clickRecordButton();
+	LWDRecorder.toggleRecorder();
 };
 	
 

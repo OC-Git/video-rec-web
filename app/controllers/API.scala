@@ -40,7 +40,7 @@ object API extends Controller {
 
     val videos = Video.findAll(client, params)
 
-    println("found videos: " + videos.size)
+    println("found videos for " + request.queryString + ": " + videos.size)
 
     val json = Json.generate(videos)
 
