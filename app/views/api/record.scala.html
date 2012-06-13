@@ -1,4 +1,4 @@
-@(client:String)
+@(client:String)(implicit request:RequestHeader)
 
 var LWDRecorder = {
 	conf : {
@@ -64,7 +64,7 @@ var LWDRecorder = {
 			flashvars.description = LWDRecorder.conf.meta.description;
 			var params = {allowfullscreen: "true"};
 			var attributes = {};
-			swfobject.embedSWF("/assets/javascripts/record.swf", "myContent", "320","266", "9.0.0", "/assets/javascripts/expressInstall.swf", flashvars, params, attributes);
+			swfobject.embedSWF("@routes.Assets.at("javascripts/record.swf").absoluteURL()", "myContent", "320","266", "9.0.0", "@routes.Assets.at("javascripts/expressInstall.swf").absoluteURL()", flashvars, params, attributes);
 			rec.style.display = '';
 			rec.focus();
 		} else {
@@ -99,7 +99,7 @@ var LWDRecorder = {
 	},
 	 
 	updateRecorded : function() {
-		var videos = LWDRecorder.get("/@client/videos", function(videos) {
+		var videos = LWDRecorder.get("@routes.API.videos(client).absoluteURL()", function(videos) {
 			var s = "";
 			for (i=0; i<videos.length; i++) {
 				var v = videos[i]; 

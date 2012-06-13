@@ -25,9 +25,11 @@ object Video {
       }
   }
 
-  def findAll(): Seq[Video] = {
+  def findAll(client: String): Seq[Video] = {
     DB.withConnection { implicit connection =>
-      SQL("SELECT * FROM Video ORDER BY date DESC").as(Video.simple *)
+      SQL("SELECT * FROM Video WHERE client={client} ORDER BY date DESC")
+        .on("client" -> client)
+        .as(Video.simple *)
     }
   }
 

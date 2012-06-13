@@ -12,8 +12,8 @@ import com.codahale.jerkson.Json
 
 object API extends Controller {
 
-  def record(client: String) = Action {
-    Ok(views.html.api.record.render(client)).as("text/javascript")
+  def record(client: String) = Action { implicit request =>
+    Ok(views.html.api.record(client)).as("text/javascript")
   }
 
   val form = Form(
@@ -35,7 +35,7 @@ object API extends Controller {
   }
 
   def videos(client: String) = Action { implicit request =>
-    val videos = Video.findAll()
+    val videos = Video.findAll(client)
 
     println("found videos: " + videos.size)
 
