@@ -93,12 +93,20 @@ var LWDRecorder = {
 	
 	publishComplete : function () {
 		LWDRecorder.toggleRecorder();
-		setTimeout(LWDRecorder.updateRecorded(), 10000);
 	},
 	
 	recorded : function(c) {
-		document.write("<div id='recordedVideos'></div>");
-		LWDRecorder.updateRecorded(c);
+		var conf = {
+			query : {},
+			player : {
+				id : "recorded-videos",
+				width : 320,
+				height : 240
+			}
+		}
+		conf = LWDRecorder.merge(conf, c);
+		document.write("<div id='"+conf.player.id+"'></div>");
+		LWDRecorder.updateRecorded(conf);
 	},
 	
 	get : function(url, result) {
@@ -132,15 +140,7 @@ var LWDRecorder = {
 		return result;
 	}, 
 	 
-	updateRecorded : function(c) {
-		var conf = {
-			query : {},
-			player : {
-				width : 320,
-				height : 240
-			}
-		}
-		conf = LWDRecorder.merge(conf, c);
+	updateRecorded : function(conf) {
 		var qs = LWDRecorder.query(conf.query);
 		var videos = LWDRecorder.get("@routes.API.videos(client).absoluteURL()"+qs, function(videos) {
 			var s = "";
@@ -148,7 +148,7 @@ var LWDRecorder = {
 				var v = videos[i]; 
 				s += '<iframe width="'+conf.player.width+'" height="'+conf.player.height+'" src="http://www.youtube.com/embed/'+v.publishedId+'" frameborder="0" allowfullscreen></iframe><br>';
 			}
-			document.getElementById("recordedVideos").innerHTML=s;
+			document.getElementById(conf.player.id).innerHTML=s;
 		});
 	}
 }
