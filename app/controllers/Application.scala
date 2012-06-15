@@ -13,4 +13,8 @@ object Application extends Controller {
     Ok(views.html.apidoc())
   }
 
+  def plans = Action { implicit request =>
+    Ok(views.html.plans())
+  }
+
 }

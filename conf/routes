@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /api                        controllers.Application.api
+GET     /plans                      controllers.Application.plans
 
 # REST API
 GET		/:client/record.js			controllers.API.record(client:String)

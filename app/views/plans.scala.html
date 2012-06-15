@@ -1,0 +1,70 @@
+@()(implicit req: RequestHeader)
+
+@main("Lean Video Recording") {
+      <div class="row">
+        <div class="span12">
+          <div class="hero-unit">
+            <h1>Choose your plan</h1>
+            <p>
+				<ul>
+					<li>Start for free!</li>
+					<li>Pay only what you need!</li>
+					<li>Add this feature lean: Try it out!</li>
+					<li>Monthly commitment only!</li>
+				</ul>
+            </p>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span4">
+          <h2>Getting Started</h2>
+          <p>
+          	Do it lean:<br>
+          	Just insert our script into your page and let go.<br>
+          	Check how easy it is.
+          	<ul>
+          		<li>Video recording into our stream</li>
+          		<li>Video listing of our stream</li>
+          	</ul>
+          </p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>I'm sure!</h2>
+          <p>
+          	You want foreseeable costs?<br>
+          	No problem!
+          	<ul>
+          		<li>Video hosting on your or our Youtube channel</li>
+          		<li>Unlimited video recordings!</li>
+          		<li>Unlimited video downloads!</li>
+          	</ul>
+          </p>
+        </div><!--/span-->
+        <div class="span4">
+          <h2>No risk, no fun!</h2>
+          <p>
+          	You want to protect your video rights?<br>
+          	Unsure how many videos are recorded?<br>
+          	Then pay by video recored
+          	<ul>
+          		<li>Video hosting in our cloud storage</li>
+          		<li>12 months storage duration</li>
+          		<li>Up to 1000 downloads per day</li>
+          	</ul>
+          </p>
+        </div><!--/span-->
+      </div><!--/row-->
+      <div class="row-fluid">
+        <div class="span4">
+          <p><a class="btn btn-large btn-primary" href="@routes.Application.api">Free!</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <p><a class="btn btn-large btn-primary" href="#">€49 / month</a></p>
+        </div><!--/span-->
+        <div class="span4">
+          <p><a class="btn btn-large btn-primary" href="#">€1 / video</a></p>
+        </div><!--/span-->
+      </div><!--/row-->
+    </div><!--/span-->
+  </div><!--/row-->
+}
