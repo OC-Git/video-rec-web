@@ -9,6 +9,10 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
+  def apps = Action { implicit request =>
+    Ok(views.html.apps())
+  }
+
   def api = Action { implicit request =>
     Ok(views.html.apidoc())
   }

@@ -30,9 +30,10 @@ object Video {
     val where = "client={client}" +
       (if (p.contains("key")) { " AND key='" + p("key") + "'" } else "") +
       (if (p.contains("page")) { " AND page='" + p("page") + "'" } else "")
+    val count = if (p.contains("count")) { Integer.parseInt(p("count")) } else { 10 }
     DB.withConnection { implicit connection =>
-      SQL("SELECT * FROM Video WHERE " + where + " ORDER BY date DESC")
-        .on("client" -> client)
+      SQL("SELECT * FROM Video WHERE " + where + " ORDER BY date DESC LIMIT {count}")
+        .on("client" -> client, "count" -> count)
         .as(Video.simple *)
     }
   }

@@ -115,7 +115,7 @@
 &lt;/script&gt;
 </pre>
 		<code>query.key</code> and <code>query.page</code> are searches for meta parameters,
-		<code>query.count</code> determines the number of videos displayed.<br>
+		<code>query.count</code> determines the number of videos displayed, default is 10.<br>
 		<code>player.width</code> and <code>player.height</code> sets the size 
 		of the actual video players. <code>player.id</code> is only required if you add
 		more than one video list on one page. Use two different ids then.
@@ -139,7 +139,7 @@ GET @routes.API.videos(":client").absoluteURL()?:query
 </pre>
 			Returns videos for <code>client</code> matching <code>query</code>.
 			Query can contain the meta parameters <code>page</code> and <code>key</code> 
-			as well as <code>count</code>, which restricts the number of videos returned.
+			as well as <code>count</code>, which restricts the number of videos returned, default is 10.
 			The videos are listed in descending order of their recording timestamp.<br>
 			Example:
 <pre>
