@@ -59,7 +59,7 @@ var LWDRecorder = {
 
 	recorder : function(c) {
 		LWDRecorder.merge(LWDRecorder.conf, c);
-		document.write('<div id="recorder" style="display: none"><div id="myContent"></div></div>');
+		document.write('<div id="recorder" style="display: none"><div id="myContent">Sie benötigen Flash in der Version 11.1.<br>Hier können sie diese Version herunterladen:<br><a href="http://get.adobe.com/de/flashplayer/" target="_blank">http://get.adobe.com/de/flashplayer/</a></div></div>');
 		LWDRecorder.toggleRecorder();
 	},
 
@@ -83,7 +83,7 @@ var LWDRecorder = {
 			flashvars.description = LWDRecorder.conf.meta.description;
 			var params = {allowfullscreen: "true"};
 			var attributes = {};
-			swfobject.embedSWF("@routes.Assets.at("javascripts/record.swf").absoluteURL()", "myContent", "320","266", "9.0.0", "@routes.Assets.at("javascripts/expressInstall.swf").absoluteURL()", flashvars, params, attributes);
+			swfobject.embedSWF("@routes.Assets.at("javascripts/record.swf").absoluteURL()", "myContent", "320","266", "11.1.0", "@routes.Assets.at("javascripts/expressInstall.swf").absoluteURL()", flashvars, params, attributes);
 			rec.style.display = '';
 			rec.focus();
 		} else {
