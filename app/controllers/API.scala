@@ -9,6 +9,7 @@ import anorm._
 import models.Video
 import java.util.Date
 import com.codahale.jerkson.Json
+import util.Publisher
 
 object API extends Controller {
 
@@ -23,14 +24,14 @@ object API extends Controller {
       "key" -> text,
       "category" -> text,
       "description" -> text,
-      "publishedId" -> text))
+      "publishedId" -> optional(text)))
 
   def published(client: String) = Action { implicit request =>
     form.bindFromRequest.fold(
       errors => BadRequest("Failed"),
       {
         case (title, page, key, category, description, publishedId) =>
-          Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
+          Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId.get))
           Ok("created")
       })
   }
@@ -48,4 +49,27 @@ object API extends Controller {
       "Access-Control-Allow-Origin" -> "*")
   }
 
+  def upload(client: String) = Action(parse.multipartFormData) { implicit request =>
+    request.body.file("file").map { file =>
+      form.bindFromRequest.fold(
+        errors => {
+          BadRequest("Failed")
+          println(errors)
+        },
+        {
+          case (title, page, key, category, description, publishedId) =>
+            import java.io.File;
+            val filename = file.filename
+            val contentType = file.contentType
+            val tmpFile = new File("/tmp/" + filename)
+            file.ref.moveTo(tmpFile, true)
+            val publishedId = Publisher.publish(tmpFile, title, category, description)
+            Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
+            Ok("created")
+        })
+      Ok("File uploaded")
+    }.getOrElse {
+      BadRequest("File missing")
+    }
+  }
 }

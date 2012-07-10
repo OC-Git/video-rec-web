@@ -11,7 +11,7 @@ var LWDRecorder = {
 			page : document.URL,
 			category : "Autos",
 			description : "Comment on "+document.URL,
-			key : ""
+			key : document.URL
 		},
 		video : {
 			width : 640,
@@ -81,6 +81,7 @@ var LWDRecorder = {
 			flashvars.title = LWDRecorder.conf.meta.title;
 			flashvars.category = LWDRecorder.conf.meta.category;
 			flashvars.description = LWDRecorder.conf.meta.description;
+			flashvars.upload = "@routes.API.upload(client).absoluteURL()";
 			var params = {allowfullscreen: "true"};
 			var attributes = {};
 			swfobject.embedSWF("@routes.Assets.at("javascripts/record.swf").absoluteURL()", "myContent", "320","266", "11.1.0", "@routes.Assets.at("javascripts/expressInstall.swf").absoluteURL()", flashvars, params, attributes);
