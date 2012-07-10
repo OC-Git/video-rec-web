@@ -34,14 +34,14 @@ public class Publisher {
 		mg.setTitle(new MediaTitle());
 		mg.getTitle().setPlainTextContent(title);
 		mg.addCategory(new MediaCategory(YouTubeNamespace.CATEGORY_SCHEME,
-				category));
+				"People"));
 		mg.setKeywords(new MediaKeywords());
-		mg.getKeywords().addKeyword("recording");
+		mg.getKeywords().addKeyword(category);
 		mg.setDescription(new MediaDescription());
 		mg.getDescription().setPlainTextContent(description);
 		mg.setPrivate(false);
 		mg.addCategory(new MediaCategory(YouTubeNamespace.DEVELOPER_TAG_SCHEME,
-				"recording"));
+				category));
 
 		// newEntry.setGeoCoordinates(new GeoRssWhere(37.0, -122.0));
 		// alternatively, one could specify just a descriptive string
@@ -57,5 +57,4 @@ public class Publisher {
 		String id = createdEntry.getId();
 		return id.substring(id.lastIndexOf(':') + 1);
 	}
-
 }

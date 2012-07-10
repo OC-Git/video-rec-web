@@ -53,8 +53,8 @@ object API extends Controller {
     request.body.file("file").map { file =>
       form.bindFromRequest.fold(
         errors => {
+          Logger.error(errors.toString())
           BadRequest("Failed")
-          println(errors)
         },
         {
           case (title, page, key, category, description, publishedId) =>
@@ -63,11 +63,18 @@ object API extends Controller {
             val contentType = file.contentType
             val tmpFile = new File("/tmp/" + filename)
             file.ref.moveTo(tmpFile, true)
-            val publishedId = Publisher.publish(tmpFile, title, category, description)
-            Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
-            Ok("created")
+            try {
+              val publishedId = Publisher.publish(tmpFile, title, category, description)
+              Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
+              tmpFile.delete()
+              Ok("created")
+            } catch {
+              case e: Exception => {
+                Logger.error("on upload", e)
+                BadRequest(e.getMessage())
+              }
+            }
         })
-      Ok("File uploaded")
     }.getOrElse {
       BadRequest("File missing")
     }
