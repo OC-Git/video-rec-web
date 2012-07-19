@@ -38,7 +38,7 @@ object Video {
     }
   }
 
-  def create(video: Video): Unit = {
+  def create(video: Video): Long = {
     println(video)
     DB.withConnection { implicit connection =>
       SQL("""
@@ -53,6 +53,9 @@ object Video {
           "category" -> video.category,
           "description" -> video.description,
           "publishedId" -> video.publishedId).executeInsert()
+    } match {
+      case Some(long) => long
+      case None => throw new IllegalStateException("No key generated")
     }
   }
 

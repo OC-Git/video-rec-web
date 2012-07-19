@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/scala-2.9.1/classes" path="app"/>
-	<classpathentry kind="src" output="target/scala-2.9.1/test-classes" path="test"/>
+	<classpathentry kind="src" path="app"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="lib" path="lib/gdata-client-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/gdata-core-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/gdata-media-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/gdata-youtube-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/gdata-youtube-meta-2.0.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/framework/sbt/boot/scala-2.9.1/lib/scala-library.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/play/play_2.9.1/2.0.1/jars/play_2.9.1.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/play/templates_2.9.1/2.0.1/jars/templates_2.9.1.jar"/>
@@ -46,8 +51,21 @@
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/tyrex/tyrex/1.0.1/jars/tyrex.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/jaxen/jaxen/1.1.3/jars/jaxen.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/net.sf.ehcache/ehcache-core/2.5.0/jars/ehcache-core.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/postgresql/postgresql/jars/postgresql-8.4-702.jdbc4.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/com.amazonaws/aws-java-sdk/jars/aws-java-sdk-1.3.12.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/log4j/log4j/jars/log4j-1.2.12.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/logkit/logkit/jars/logkit-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/avalon-framework/avalon-framework/jars/avalon-framework-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/javax.servlet/servlet-api/jars/servlet-api-2.3.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/javax.mail/mail/jars/mail-1.4.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/javax.activation/activation/jars/activation-1.1.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/com.github.twitter/bootstrap/jars/bootstrap-2.0.2.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/cache/com.jquery/jquery/jars/jquery-1.7.1.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/commons-codec/commons-codec/1.4/jars/commons-codec.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/play/play-test_2.9.1/2.0.1/jars/play-test_2.9.1.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.specs2/specs2_2.9.1/1.7.1/jars/specs2_2.9.1.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.specs2/specs2-scalaz-core_2.9.1/6.0.1/jars/specs2-scalaz-core_2.9.1.jar"/>
@@ -64,8 +82,6 @@
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.seleniumhq.selenium/selenium-api/2.16.1/jars/selenium-api.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.apache.httpcomponents/httpclient/4.1.2/jars/httpclient.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.apache.httpcomponents/httpcore/4.1.3/jars/httpcore.jar"/>
-	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/commons-codec/commons-codec/1.4/jars/commons-codec.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.apache.commons/commons-exec/1.1/jars/commons-exec.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/net.java.dev.jna/jna/3.4.0/jars/jna.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/net.java.dev.jna/platform/3.4.0/jars/platform.jar"/>
@@ -89,11 +105,6 @@
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.seleniumhq.selenium/selenium-support/2.16.1/jars/selenium-support.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.easytesting/fest-assert/1.4/jars/fest-assert.jar"/>
 	<classpathentry kind="lib" path="/Users/viola/Java/play-2.0.1/repository/local/org.easytesting/fest-util/1.1.6/jars/fest-util.jar"/>
-	<classpathentry kind="lib" path="lib/gdata-client-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/gdata-core-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/gdata-media-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/gdata-youtube-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/gdata-youtube-meta-2.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/viola/Workspaces/66and33/lean-services/video-rec/video-rec-web/target/scala-2.9.1/classes_managed"/>
 	<classpathentry kind="output" path="bin"/>

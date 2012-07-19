@@ -10,11 +10,16 @@ import models.Video
 import java.util.Date
 import com.codahale.jerkson.Json
 import util.Publisher
+import util.S3
+import models.Client
 
 object API extends Controller {
 
   def record(client: String) = Action { implicit request =>
-    Ok(views.html.api.record(client)).as("text/javascript")
+    Client.byId(client) match {
+      case None => BadRequest("Unknown client")
+      case Some(c) => Ok(views.html.api.record(client)).as("text/javascript")
+    }
   }
 
   val form = Form(
@@ -31,8 +36,13 @@ object API extends Controller {
       errors => BadRequest("Failed"),
       {
         case (title, page, key, category, description, publishedId) =>
-          Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId.get))
-          Ok("created")
+          Client.byId(client) match {
+            case None => BadRequest("Unknown client")
+            case Some(c) => {
+              Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId.get))
+              Ok("created")
+            }
+          }
       })
   }
 
@@ -40,8 +50,6 @@ object API extends Controller {
     val params = request.queryString.map(t => (t._1, t._2(0)))
 
     val videos = Video.findAll(client, params)
-
-    println("found videos for " + request.queryString + ": " + videos.size)
 
     val json = Json.generate(videos)
 
@@ -64,10 +72,16 @@ object API extends Controller {
             val tmpFile = new File("/tmp/" + filename)
             file.ref.moveTo(tmpFile, true)
             try {
-              val publishedId = Publisher.publish(tmpFile, title, category, description)
-              Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
-              tmpFile.delete()
-              Ok("created")
+              Client.byId(client) match {
+                case None => BadRequest("Unknown client")
+                case Some(c) => {
+                  val publishedId = Publisher.publish(tmpFile, title, category, description, c.ytUser, c.ytPwd)
+                  val id = Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
+                  S3.upload(client + "/" + id + ".flv", tmpFile)
+                  tmpFile.delete()
+                  Ok("created")
+                }
+              }
             } catch {
               case e: Exception => {
                 Logger.error("on upload", e)

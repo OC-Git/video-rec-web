@@ -2,7 +2,8 @@ package util;
 
 import java.io.File;
 import java.net.URL;
-import java.util.logging.Logger;
+
+import play.Logger;
 
 import com.google.gdata.client.youtube.YouTubeService;
 import com.google.gdata.data.media.MediaFileSource;
@@ -16,17 +17,17 @@ import com.google.gdata.data.youtube.YouTubeNamespace;
 
 public class Publisher {
 
-	private static final Logger logger = Logger.getLogger(Publisher.class
-			.getName());
-
 	public static String publish(File file, String title, String category,
-			String description) throws Exception {
-		logger.info("Publishing to Youtube: " + file.getAbsolutePath());
+			String description, String ytUser, String ytPwd) throws Exception {
+		if (ytUser == null)
+			return null;
+		Logger.info("Publishing to Youtube: " + file.getAbsolutePath());
 		String clientID = "lean-video-recording";
 		String developer_key = "AI39si642bz59kjhdF7sZOLDlCL2BjQT8_c9mtdBLRhvv8CB4KP8TApMj7Q94AOYhIBS5jfLENomZ0fuOywEKzrBk3Aqw2bdDQ";
 		YouTubeService service = new YouTubeService(clientID, developer_key);
-		service.setUserCredentials("joerg.viola@gmail.com",
-				"yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP");
+		service.setUserCredentials(ytUser, ytPwd);
+		// service.setUserCredentials("joerg.viola@gmail.com",
+		// "yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP");
 
 		VideoEntry newEntry = new VideoEntry();
 
