@@ -82,7 +82,7 @@ var LWDRecorder = {
 			flashvars.category = LWDRecorder.conf.meta.category;
 			flashvars.description = LWDRecorder.conf.meta.description;
 			flashvars.upload = "@routes.API.upload(client).absoluteURL()";
-			var params = {allowfullscreen: "true"};
+			var params = {allowfullscreen: "true", wmode: "transparent"};
 			var attributes = {};
 			swfobject.embedSWF("@routes.Assets.at("javascripts/record.swf").absoluteURL()", "myContent", "320","266", "11.1.0", "@routes.Assets.at("javascripts/expressInstall.swf").absoluteURL()", flashvars, params, attributes);
 			rec.style.display = '';
