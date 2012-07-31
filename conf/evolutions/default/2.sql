@@ -9,7 +9,7 @@ CREATE TABLE Client (
   password		VARCHAR(255) NOT NULL,
   initial_state	VARCHAR(255) NOT NULL,
   ytUser		VARCHAR(255) NOT NULL, 
-  ytPwd 		VARCHAR(255) NOT NULL,
+  ytPwd 		VARCHAR(255) NOT NULL
 );
 
 INSERT INTO Client VALUES ('videorec', SYSDATE(), NULL, NULL, NULL, 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
