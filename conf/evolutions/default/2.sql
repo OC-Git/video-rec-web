@@ -12,8 +12,8 @@ CREATE TABLE Client (
   ytPwd 		VARCHAR(255) NOT NULL
 );
 
-INSERT INTO Client VALUES ('videorec', current_timestamp, NULL, NULL, NULL, 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
-INSERT INTO Client VALUES ('66and33', current_timestamp, NULL, NULL, NULL, 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
+INSERT INTO Client VALUES ('videorec', current_timestamp, '', '', '', 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
+INSERT INTO Client VALUES ('66and33', current_timestamp, '', '', '', 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
  
 # --- !Downs
  
