@@ -13,6 +13,7 @@ CREATE TABLE Client (
 );
 
 INSERT INTO Client VALUES ('videorec', SYSDATE(), NULL, NULL, NULL, 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
+INSERT INTO Client VALUES ('66and33', SYSDATE(), NULL, NULL, NULL, 'joerg.viola@gmail.com', 'yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP');
  
 # --- !Downs
  
