@@ -113,15 +113,18 @@ var LWDRecorder = {
 	
 	get : function(url, result) {
 		var xmlhttp;
-		if (window.XMLHttpRequest)
-		  {// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
-		  }
-		else
-		  {// code for IE6, IE5
-		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		  }
-		xmlhttp.open("GET", url, true);
+		if (typeof XDomainRequest != "undefined") {
+		  	xmlhttp=new XDomainRequest();
+			xmlhttp.open("GET", url);
+		} else if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+		  	xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("GET", url, true);
+		} else if (xmlhttp==null) {
+		  	// code for IE6, IE5 -> wont work, no CORS
+		  	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  	xmlhttp.open("GET", url, true);
+		}
 		xmlhttp.onload  = function() {
 			result(JSON.parse(xmlhttp.responseText)) 
 		}; 

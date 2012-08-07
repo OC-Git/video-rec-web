@@ -18,8 +18,7 @@ object API extends Controller {
   def record(client: String) = Action { implicit request =>
     Client.byId(client) match {
       case None => BadRequest("Unknown client")
-      case Some(c) => Ok(views.html.api.record(client)).as("text/javascript").withHeaders(
-        "Access-Control-Allow-Origin" -> "*")
+      case Some(c) => Ok(views.html.api.record(client)).as("text/javascript")
     }
   }
 
