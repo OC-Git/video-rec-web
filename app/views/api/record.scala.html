@@ -1,10 +1,11 @@
 @(client:String)(implicit request:RequestHeader)
 
+
 var LWDRecorder = {
 	conf : {
 		button : {
 			title : "Record &raqou;",
-			class : ""
+			cls : ""
 		},
 		meta : {
 			title : "Test",
@@ -53,7 +54,7 @@ var LWDRecorder = {
 		LWDRecorder.merge(LWDRecorder.conf, c);
 		document.write('<div id="recorder" style="display: none"><div id="myContent"></div></div>');
 		document.write('<a id="show-record" class="'+
-		   LWDRecorder.conf.button.class+'" onClick="LWDRecorder.toggleRecorder()">'+
+		   LWDRecorder.conf.button.cls+'" onClick="LWDRecorder.toggleRecorder()">'+
 		   LWDRecorder.conf.button.title+'<\/a>');
 	},
 
