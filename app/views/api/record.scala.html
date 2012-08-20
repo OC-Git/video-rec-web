@@ -21,6 +21,10 @@ var LWDRecorder = {
 			quality : 80,
 			bandwidth : 0
 		},
+		mic : {
+			silenceLevel : 0,
+			rate : 44
+		},
 		player : {
 			width : 320,
 			height : 240
@@ -76,6 +80,8 @@ var LWDRecorder = {
 			flashvars.fps=LWDRecorder.conf.video.fps;
 			flashvars.bandwith=LWDRecorder.conf.video.bandwidth;
 			flashvars.quality=LWDRecorder.conf.video.quality;
+			flashvars.silenceLevel=LWDRecorder.conf.mic.silenceLevel;
+			flashvars.micRate=LWDRecorder.conf.mic.rate;
 			flashvars.client = '@client';
 			flashvars.key = LWDRecorder.conf.meta.key;
 			flashvars.page = LWDRecorder.conf.meta.page;
