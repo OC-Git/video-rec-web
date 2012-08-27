@@ -99,6 +99,15 @@ LWDRecorder.recordButton({
 <script type="text/javascript">
 LWDRecorder.recorded({
 			query : {
+			},
+			player : {
+				type : "LVR",
+				playlist : function(element, videos, conf) {
+					LWDRecorder.playlist(element, videos, conf);
+				},
+				player : function(element, video, conf) {
+					LWDRecorder.player(element, video, conf);
+				}
 			}
 });
 </script>

@@ -178,7 +178,14 @@ var LWDRecorder = {
 	
 	player : function(element, video, conf) {
 		if (conf.player.type=='YouTube') {
-			element.innerHtml.append('<iframe width="'+conf.player.width+'" height="'+conf.player.height+'" src="http://www.youtube.com/embed/'+video.publishedId+'" frameborder="0" allowfullscreen></iframe><br>');
+			var iframe = document.createElement('iframe');
+			iframe.setAttribute('width', conf.player.width);
+			iframe.setAttribute('height', conf.player.height);
+			iframe.setAttribute('src', 'http://www.youtube.com/embed/'+video.publishedId);
+			iframe.setAttribute('frameborder', '0');
+			iframe.setAttribute('allowfullscreen', '1');
+			element.appendChild(iframe);
+			element.appendChild(document.createElement('br'));
 		} else if (conf.player.type=='LVR') {
 			var link = document.createElement('a');
 			link.href = '@util.S3.s3Access().website/@client/'+video.id.id+'.flv';
