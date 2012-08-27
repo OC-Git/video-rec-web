@@ -76,7 +76,8 @@ object API extends Controller {
                 case None => BadRequest("Unknown client")
                 case Some(c) => {
                   val publishedId = Publisher.publish(tmpFile, title, category, description, c.ytUser, c.ytPwd)
-                  val id = Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId))
+                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId)
+                  val id = Video.create(video)
                   S3.upload(client + "/" + id + ".flv", tmpFile)
                   tmpFile.delete()
                   Ok("created")

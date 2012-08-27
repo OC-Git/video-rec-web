@@ -7,7 +7,8 @@ import anorm.SqlParser._
 import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
-  page: String, key: String, category: String, description: String, publishedId: String)
+  page: String, key: String, category: String, description: String, publishedId: String) {
+}
 
 object Video {
 
@@ -57,6 +58,6 @@ object Video {
       case Some(long) => long
       case None => throw new IllegalStateException("No key generated")
     }
-  }
 
+  }
 }
