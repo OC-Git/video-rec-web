@@ -1,6 +1,8 @@
 package util;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import play.Logger;
@@ -14,11 +16,15 @@ import com.google.gdata.data.media.mediarss.MediaTitle;
 import com.google.gdata.data.youtube.VideoEntry;
 import com.google.gdata.data.youtube.YouTubeMediaGroup;
 import com.google.gdata.data.youtube.YouTubeNamespace;
+import com.google.gdata.util.AuthenticationException;
+import com.google.gdata.util.InvalidEntryException;
+import com.google.gdata.util.ServiceException;
 
 public class Publisher {
 
 	public static String publish(File file, String title, String category,
-			String description, String ytUser, String ytPwd) throws Exception {
+			String description, String ytUser, String ytPwd)
+			throws MalformedURLException, IOException, ServiceException {
 		if (ytUser == null)
 			return null;
 		Logger.info("Publishing to Youtube: " + file.getAbsolutePath());
@@ -52,8 +58,14 @@ public class Publisher {
 		newEntry.setMediaSource(ms);
 
 		String uploadUrl = "http://uploads.gdata.youtube.com/feeds/api/users/default/uploads";
-
-		VideoEntry createdEntry = service.insert(new URL(uploadUrl), newEntry);
+		try {
+			VideoEntry createdEntry = service.insert(new URL(uploadUrl),
+					newEntry);
+		} catch (ServiceException se) {
+			Logger.error("ServiceException: " + se.getExtendedHelp() + " "
+					+ se.getInternalReason() + " " + se.getDebugInfo());
+			throw se;
+		}
 		// tag:youtube.com,2008:video:9yCGrfG9vRk
 		String id = createdEntry.getId();
 		return id.substring(id.lastIndexOf(':') + 1);

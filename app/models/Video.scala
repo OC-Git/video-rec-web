@@ -46,14 +46,14 @@ object Video {
         INSERT INTO Video(client, date, title, page, key, category, description, publishedId) 
                VALUES ({client}, {date}, {title}, {page}, {key}, {category}, {description}, {publishedId})
         """)
-        .on("client" -> video.client,
+        .on("client" -> video.client.slice(0, 255),
           "date" -> video.date,
-          "title" -> video.title,
-          "page" -> video.page,
-          "key" -> video.key,
-          "category" -> video.category,
-          "description" -> video.description,
-          "publishedId" -> video.publishedId).executeInsert()
+          "title" -> video.title.slice(0, 255),
+          "page" -> video.page.slice(0, 255),
+          "key" -> video.key.slice(0, 255),
+          "category" -> video.category.slice(0, 255),
+          "description" -> video.description.slice(0, 255),
+          "publishedId" -> video.publishedId.slice(0, 255)).executeInsert()
     } match {
       case Some(long) => long
       case None => throw new IllegalStateException("No key generated")
