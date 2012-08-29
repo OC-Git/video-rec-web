@@ -61,13 +61,13 @@ public class Publisher {
 		try {
 			VideoEntry createdEntry = service.insert(new URL(uploadUrl),
 					newEntry);
+			// tag:youtube.com,2008:video:9yCGrfG9vRk
+			String id = createdEntry.getId();
+			return id.substring(id.lastIndexOf(':') + 1);
 		} catch (ServiceException se) {
 			Logger.error("ServiceException: " + se.getExtendedHelp() + " "
 					+ se.getInternalReason() + " " + se.getDebugInfo());
 			throw se;
 		}
-		// tag:youtube.com,2008:video:9yCGrfG9vRk
-		String id = createdEntry.getId();
-		return id.substring(id.lastIndexOf(':') + 1);
 	}
 }
