@@ -39,7 +39,7 @@ public class Publisher {
 		mg.setKeywords(new MediaKeywords());
 		mg.getKeywords().addKeyword(category);
 		mg.setDescription(new MediaDescription());
-		mg.getDescription().setPlainTextContent(description);
+		mg.getDescription().setHtmlContent(description);
 		mg.setPrivate(false);
 		mg.addCategory(new MediaCategory(YouTubeNamespace.DEVELOPER_TAG_SCHEME,
 				category));
