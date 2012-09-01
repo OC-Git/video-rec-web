@@ -7,7 +7,7 @@ import anorm.SqlParser._
 import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
-  page: String, key: String, category: String, description: String, publishedId: String) {
+  page: String, key: String, category: String, description: String, publishedId: String, filename: String) {
 }
 
 object Video {
@@ -21,9 +21,10 @@ object Video {
       get[String]("key") ~
       get[String]("category") ~
       get[String]("description") ~
-      get[String]("publishedId") map {
-        case id ~ client ~ date ~ title ~ page ~ key ~ category ~ description ~ publishedId =>
-          Video(id, client, date, title, page, key, category, description, publishedId)
+      get[String]("publishedId") ~
+      get[String]("filename") map {
+        case id ~ client ~ date ~ title ~ page ~ key ~ category ~ description ~ publishedId ~ filename =>
+          Video(id, client, date, title, page, key, category, description, publishedId, filename)
       }
   }
 
@@ -43,8 +44,8 @@ object Video {
     println(video)
     DB.withConnection { implicit connection =>
       SQL("""
-        INSERT INTO Video(client, date, title, page, key, category, description, publishedId) 
-               VALUES ({client}, {date}, {title}, {page}, {key}, {category}, {description}, {publishedId})
+        INSERT INTO Video(client, date, title, page, key, category, description, publishedId, filename) 
+               VALUES ({client}, {date}, {title}, {page}, {key}, {category}, {description}, {publishedId}, {filename})
         """)
         .on("client" -> video.client.slice(0, 255),
           "date" -> video.date,
@@ -53,7 +54,8 @@ object Video {
           "key" -> video.key.slice(0, 255),
           "category" -> video.category.slice(0, 255),
           "description" -> video.description.slice(0, 255),
-          "publishedId" -> video.publishedId.slice(0, 255)).executeInsert()
+          "publishedId" -> video.publishedId.slice(0, 255),
+          "filename" -> video.filename.slice(0, 255)).executeInsert()
     } match {
       case Some(long) => long
       case None => throw new IllegalStateException("No key generated")

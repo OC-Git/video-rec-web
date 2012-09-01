@@ -31,21 +31,6 @@ object API extends Controller {
       "description" -> text,
       "publishedId" -> optional(text)))
 
-  def published(client: String) = Action { implicit request =>
-    form.bindFromRequest.fold(
-      errors => BadRequest("Failed"),
-      {
-        case (title, page, key, category, description, publishedId) =>
-          Client.byId(client) match {
-            case None => BadRequest("Unknown client")
-            case Some(c) => {
-              Video.create(Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId.get))
-              Ok("created")
-            }
-          }
-      })
-  }
-
   def videos(client: String) = Action { implicit request =>
     val params = request.queryString.map(t => (t._1, t._2(0)))
 
@@ -68,6 +53,8 @@ object API extends Controller {
           case (title, page, key, category, description, publishedId) =>
             import java.io.File;
             val filename = file.filename
+            Logger.info(filename)
+
             val contentType = file.contentType
             val tmpFile = new File("/tmp/" + filename)
             file.ref.moveTo(tmpFile, true)
@@ -76,9 +63,9 @@ object API extends Controller {
                 case None => BadRequest("Unknown client")
                 case Some(c) => {
                   val publishedId = Publisher.publish(tmpFile, title, category, description, c.ytUser, c.ytPwd)
-                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId)
+                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId, filename)
                   val id = Video.create(video)
-                  S3.upload(client + "/" + id + ".flv", tmpFile)
+                  S3.upload(client + "/" + id + "." + filename, tmpFile)
                   tmpFile.delete()
                   Ok("created")
                 }

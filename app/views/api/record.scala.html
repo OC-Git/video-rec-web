@@ -188,7 +188,7 @@ var LWDRecorder = {
 			element.appendChild(document.createElement('br'));
 		} else if (conf.player.type=='LVR') {
 			var link = document.createElement('a');
-			link.href = '@util.S3.s3Access().website/@client/'+video.id.id+'.flv';
+			link.href = '@util.S3.s3Access().website/@client/'+video.id.id+'.'+video.filename;
 			link.setAttribute('style', 'display:block;width:'+conf.player.width+'px;height:'+conf.player.height+'px;');
 			link.setAttribute('id', 'player-'+video.id.id);
 			element.appendChild(link);

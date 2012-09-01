@@ -8,9 +8,12 @@ GET     /apps                       controllers.Application.apps
 GET     /api                        controllers.Application.api
 GET     /plans                      controllers.Application.plans
 
+# Client interface
+# GET		/:client/youtube			controllers.Clients.auth(client:String)
+# GET		/youtube/callback			controllers.Clients.callback()
+
 # REST API
 GET		/:client/record.js			controllers.API.record(client:String)
-POST	/:client/published			controllers.API.published(client)
 GET	    /:client/videos				controllers.API.videos(client)
 POST    /:client/upload				controllers.API.upload(client)
 
