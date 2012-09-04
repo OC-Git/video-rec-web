@@ -8,6 +8,7 @@ import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
   page: String, key: String, category: String, description: String, publishedId: Option[String], filename: String) {
+  val url = util.S3.s3Access().website + "/" + client + "/" + id + "." + filename
 }
 
 object Video {
