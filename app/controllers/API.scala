@@ -62,12 +62,25 @@ object API extends Controller {
               Client.byId(client) match {
                 case None => BadRequest("Unknown client")
                 case Some(c) => {
-                  val publishedId = Publisher.publish(tmpFile, title, category, description, c.ytUser, c.ytPwd)
-                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId, filename)
+                  Logger.info("Request for: " + c)
+                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, None, filename)
                   val id = Video.create(video)
                   S3.upload(client + "/" + id + "." + filename, tmpFile)
-                  tmpFile.delete()
-                  Ok("created")
+                  Logger.info("Saved and uploaded successfully: " + video)
+                  if (c.ytToken.isDefined) {
+                    val accessToken = Clients.exchange(c.ytToken.get)
+                    Async(
+                      accessToken.map { token =>
+                        val publishedId = Publisher.publish(tmpFile, title, category, description, token)
+                        Video.published(video, publishedId)
+                        Logger.info("Published successfully: " + publishedId)
+                        tmpFile.delete()
+                        Ok("created")
+                      })
+                  } else {
+                    tmpFile.delete()
+                    Ok("created")
+                  }
                 }
               }
             } catch {

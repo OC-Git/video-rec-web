@@ -23,17 +23,14 @@ import com.google.gdata.util.ServiceException;
 public class Publisher {
 
 	public static String publish(File file, String title, String category,
-			String description, String ytUser, String ytPwd)
-			throws MalformedURLException, IOException, ServiceException {
-		if (ytUser == null)
+			String description, String accessToken) {
+		if (accessToken == null)
 			return null;
 		Logger.info("Publishing to Youtube: " + file.getAbsolutePath());
 		String clientID = "lean-video-recording";
 		String developer_key = "AI39si642bz59kjhdF7sZOLDlCL2BjQT8_c9mtdBLRhvv8CB4KP8TApMj7Q94AOYhIBS5jfLENomZ0fuOywEKzrBk3Aqw2bdDQ";
 		YouTubeService service = new YouTubeService(clientID, developer_key);
-		service.setUserCredentials(ytUser, ytPwd);
-		// service.setUserCredentials("joerg.viola@gmail.com",
-		// "yDYf8PfWczURuKUPiuliUjPjZXO3uLIVP");
+		service.setAuthSubToken(accessToken);
 
 		VideoEntry newEntry = new VideoEntry();
 
@@ -65,9 +62,14 @@ public class Publisher {
 			String id = createdEntry.getId();
 			return id.substring(id.lastIndexOf(':') + 1);
 		} catch (ServiceException se) {
-			Logger.error("ServiceException: " + se.getExtendedHelp() + " "
-					+ se.getInternalReason() + " " + se.getDebugInfo());
-			throw se;
+			Logger.error(
+					"ServiceException: " + se.getExtendedHelp() + " "
+							+ se.getInternalReason() + " " + se.getDebugInfo(),
+					se);
+			return null;
+		} catch (Exception e) {
+			Logger.error("Youtube publish", e);
+			return null;
 		}
 	}
 }

@@ -3,6 +3,9 @@ package controllers
 import play.api.mvc._
 import play.api._
 import play.api.libs.ws.WS
+import play.api.libs.concurrent.Promise
+
+import models.Client
 
 object Clients extends Controller {
 
@@ -16,10 +19,11 @@ object Clients extends Controller {
       "&scope=https://gdata.youtube.com" +
       "&state=" + client +
       "&access_type=offline" +
-      "&approval_prompt=auto"
+      "&approval_prompt=force"
 
     Redirect("https://accounts.google.com/o/oauth2/auth?" + q)
   }
+
   def callback = Action { implicit request =>
     val code = request.queryString("code")
     val client = request.queryString("state")
@@ -35,8 +39,22 @@ object Clients extends Controller {
         val expiresIn = response.json \ "expires_in"
         val tokenType = response.json \ "token_type"
 
-        Ok(accessToken)
+        Client.refreshToken(client.head, refreshToken.asOpt[String].get)
+        Ok("You are authenticated, thank you!")
       }
+    }
+  }
+
+  def exchange(refreshToken: String): Promise[String] = {
+    val params = Map(
+      "client_id" -> Seq(ClientId),
+      "client_secret" -> Seq(ClientSecret),
+      "refresh_token" -> Seq(refreshToken),
+      "grant_type" -> Seq("refresh_token"))
+    WS.url("https://accounts.google.com/o/oauth2/token").post(params).map { response =>
+      val accessToken = response.json \ "access_token"
+      Logger.info("Refresh from " + refreshToken + ": " + accessToken.asOpt[String].get)
+      accessToken.asOpt[String].get
     }
   }
 }

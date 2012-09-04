@@ -7,7 +7,7 @@ import anorm.SqlParser._
 import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
-  page: String, key: String, category: String, description: String, publishedId: String, filename: String) {
+  page: String, key: String, category: String, description: String, publishedId: Option[String], filename: String) {
 }
 
 object Video {
@@ -21,7 +21,7 @@ object Video {
       get[String]("key") ~
       get[String]("category") ~
       get[String]("description") ~
-      get[String]("publishedId") ~
+      get[Option[String]]("publishedId") ~
       get[String]("filename") map {
         case id ~ client ~ date ~ title ~ page ~ key ~ category ~ description ~ publishedId ~ filename =>
           Video(id, client, date, title, page, key, category, description, publishedId, filename)
@@ -54,12 +54,22 @@ object Video {
           "key" -> video.key.slice(0, 255),
           "category" -> video.category.slice(0, 255),
           "description" -> video.description.slice(0, 255),
-          "publishedId" -> video.publishedId.slice(0, 255),
+          "publishedId" -> video.publishedId,
           "filename" -> video.filename.slice(0, 255)).executeInsert()
     } match {
       case Some(long) => long
       case None => throw new IllegalStateException("No key generated")
     }
 
+  }
+
+  def published(video: Video, publishedId: String) = {
+    DB.withConnection { implicit connection =>
+      SQL("""
+        UPDATE Video SET publishedId={publishedId} WHERE id={id}
+        """)
+        .on("publishedId" -> publishedId.slice(0, 255),
+          "id" -> video.id).executeInsert()
+    }
   }
 }
