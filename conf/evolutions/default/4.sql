@@ -1,5 +1,6 @@
 # --- !Ups
 
+
 alter table Client add column usr varchar(255);
 alter table Client add column pwd varchar(255);
 alter table Client add column yt_token varchar(255);
