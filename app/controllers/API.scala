@@ -72,7 +72,7 @@ object API extends Controller {
                     Async(
                       accessToken.map { token =>
                         val publishedId = Publisher.publish(tmpFile, title, category, description, token)
-                        Video.published(video, publishedId)
+                        Video.published(id, publishedId)
                         Logger.info("Published successfully: " + publishedId)
                         tmpFile.delete()
                         Ok("created")

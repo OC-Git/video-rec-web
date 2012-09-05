@@ -64,13 +64,13 @@ object Video {
 
   }
 
-  def published(video: Video, publishedId: String) = {
+  def published(video: Long, publishedId: String) = {
     DB.withConnection { implicit connection =>
       SQL("""
         UPDATE Video SET publishedId={publishedId} WHERE id={id}
         """)
         .on("publishedId" -> publishedId.slice(0, 255),
-          "id" -> video.id).executeInsert()
+          "id" -> video).executeInsert()
     }
   }
 }
