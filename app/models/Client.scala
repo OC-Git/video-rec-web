@@ -14,7 +14,7 @@ object Client {
   val simple = {
     get[Pk[String]]("id") ~
       get[Date]("created") ~
-      get[String]("user") ~
+      get[String]("usr") ~
       get[String]("pwd") ~
       get[Option[String]]("yt_token") map {
         case id ~ created ~ user ~ pwd ~ ytToken =>
@@ -32,7 +32,7 @@ object Client {
 
   def byUser(user: String): Option[Client] = {
     DB.withConnection { implicit connection =>
-      SQL("SELECT * FROM Client WHERE user={user}")
+      SQL("SELECT * FROM Client WHERE usr={user}")
         .on("user" -> user)
         .as(Client.simple *).headOption
     }
