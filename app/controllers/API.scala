@@ -15,6 +15,8 @@ import models.Client
 
 object API extends Controller {
 
+  case class CreationResponse(val id: Long, val token: String)
+
   def record(client: String) = Action { implicit request =>
     Client.byId(client) match {
       case None => BadRequest("Unknown client")
@@ -29,7 +31,8 @@ object API extends Controller {
       "key" -> text,
       "category" -> text,
       "description" -> text,
-      "publishedId" -> optional(text)))
+      "publishedId" -> optional(text),
+      "filename" -> optional(text)))
 
   def videos(client: String) = Action { implicit request =>
     val params = request.queryString.map(t => (t._1, t._2(0)))
@@ -42,6 +45,52 @@ object API extends Controller {
       "Access-Control-Allow-Origin" -> "*")
   }
 
+  def create(client: String) = Action { implicit request =>
+    form.bindFromRequest.fold(
+      errors => {
+        Logger.error(errors.toString())
+        BadRequest("Failed")
+      },
+      {
+        case (title, page, key, category, description, publishedId, filename) =>
+          Client.byId(client) match {
+            case None => BadRequest("Unknown client")
+            case Some(c) => {
+              val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId, filename)
+              val id = Video.create(video)
+              if (c.ytToken.isDefined) {
+                val accessToken = Clients.exchange(c.ytToken.get)
+                Async(
+                  accessToken.map { token =>
+                    val response = CreationResponse(id, token)
+                    Logger.info("Video created: " + Json.generate(response))
+                    Ok(Json.generate(response))
+                  })
+              } else {
+                val response = CreationResponse(id, "")
+                Logger.info("Video created: " + Json.generate(response))
+                Ok(Json.generate(response))
+              }
+            }
+          }
+      })
+  }
+
+  def update(client: String, id: Long) = Action { implicit request =>
+    form.bindFromRequest.fold(
+      errors => {
+        Logger.error(errors.toString())
+        BadRequest("Failed")
+      },
+      {
+        case (title, page, key, category, description, publishedId, filename) =>
+          val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, publishedId, filename)
+          Video.update(id, video)
+          Logger.info("Video updated")
+          Ok(Json.generate("ok"))
+      })
+  }
+
   def upload(client: String) = Action(parse.multipartFormData) { implicit request =>
     request.body.file("file").map { file =>
       form.bindFromRequest.fold(
@@ -50,7 +99,7 @@ object API extends Controller {
           BadRequest("Failed")
         },
         {
-          case (title, page, key, category, description, publishedId) =>
+          case (title, page, key, category, description, publishedId, fn) =>
             import java.io.File;
             val filename = file.filename
             Logger.info(filename)
@@ -63,7 +112,7 @@ object API extends Controller {
                 case None => BadRequest("Unknown client")
                 case Some(c) => {
                   Logger.info("Request for: " + c)
-                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, None, filename)
+                  val video = Video(NotAssigned, client, new Date(), title, page, key, category, description, None, Some(filename))
                   val id = Video.create(video)
                   S3.upload(client + "/" + id + "." + filename, tmpFile)
                   Logger.info("Saved and uploaded successfully: " + video)

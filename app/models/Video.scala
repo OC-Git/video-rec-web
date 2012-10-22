@@ -7,7 +7,7 @@ import anorm.SqlParser._
 import java.util.Date
 
 case class Video(id: Pk[Long], client: String, date: Date, title: String,
-  page: String, key: String, category: String, description: String, publishedId: Option[String], filename: String) {
+  page: String, key: String, category: String, description: String, publishedId: Option[String], filename: Option[String]) {
   val url = util.S3.s3Access().website + "/" + client + "/" + id + "." + filename
 }
 
@@ -23,7 +23,7 @@ object Video {
       get[String]("category") ~
       get[String]("description") ~
       get[Option[String]]("publishedId") ~
-      get[String]("filename") map {
+      get[Option[String]]("filename") map {
         case id ~ client ~ date ~ title ~ page ~ key ~ category ~ description ~ publishedId ~ filename =>
           Video(id, client, date, title, page, key, category, description, publishedId, filename)
       }
@@ -56,12 +56,30 @@ object Video {
           "category" -> video.category.slice(0, 255),
           "description" -> video.description.slice(0, 255),
           "publishedId" -> video.publishedId,
-          "filename" -> video.filename.slice(0, 255)).executeInsert()
+          "filename" -> video.filename).executeInsert()
     } match {
       case Some(long) => long
       case None => throw new IllegalStateException("No key generated")
     }
 
+  }
+
+  def update(id: Long, video: Video) = {
+    DB.withConnection { implicit connection =>
+      SQL("""
+        UPDATE Video SET client={client}, date={date}, title={title}, page={page}, key={key}, category={category}, description={description}, publishedId={publishedId}, filename={filename} WHERE id={id}
+        """)
+        .on("client" -> video.client.slice(0, 255),
+          "date" -> video.date,
+          "title" -> video.title.slice(0, 255),
+          "page" -> video.page.slice(0, 255),
+          "key" -> video.key.slice(0, 255),
+          "category" -> video.category.slice(0, 255),
+          "description" -> video.description.slice(0, 255),
+          "publishedId" -> video.publishedId,
+          "filename" -> video.filename,
+          "id" -> id).executeInsert()
+    }
   }
 
   def published(video: Long, publishedId: String) = {
